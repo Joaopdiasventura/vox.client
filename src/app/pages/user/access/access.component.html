@@ -1,0 +1,86 @@
+<div class="screen">
+  @if (isLoading) { <loading />} @else if(modalConfig.isVisible) {
+  <modal
+    [isVisible]="modalConfig.isVisible"
+    [title]="modalConfig.title"
+    [children]="modalConfig.children"
+    [onClose]="modalConfig.onClose"
+  />} @else {
+  <div [class]="+isInLogin ? 'container' : 'container active'">
+    <div class="form-box form-login">
+      <h2 class="">Login</h2>
+      <form autocomplete="off" (ngSubmit)="login()">
+        <access-input
+          type="text"
+          id="login-email"
+          name="loginEmail"
+          label="Email"
+          [(ngModel)]="loginUserDto.email"
+        />
+        <access-input
+          type="password"
+          id="login-password"
+          name="loginPassword"
+          label="Senha"
+          [(ngModel)]="loginUserDto.password"
+        />
+        <app-button content="Entrar" />
+        <div class="regi-link">
+          Não tem uma conta?
+          <a class="SignUpLink" (click)="changeMethod()">Crie uma </a>
+        </div>
+      </form>
+    </div>
+    <div class="form-box form-create">
+      <h2>Criar Conta</h2>
+      <form autocomplete="off" (ngSubmit)="create()">
+        <access-input
+          type="text"
+          id="create-email"
+          name="createEmail"
+          label="Email"
+          [(ngModel)]="createUserDto.email"
+        />
+        <access-input
+          type="text"
+          id="create-name"
+          name="createName"
+          label="Nome"
+          [(ngModel)]="createUserDto.name"
+        />
+        <access-input
+          type="password"
+          id="create-password"
+          name="createPassword"
+          label="Senha"
+          [(ngModel)]="createUserDto.password"
+        />
+        <app-button content="Criar" />
+        <div class="regi-link">
+          Possui uma conta?
+          <a class="SignUpLink" (click)="changeMethod()">Entre nela</a>
+        </div>
+      </form>
+    </div>
+    <div [class]="+isInLogin ? 'curved-shape' : 'curved-shape active'"></div>
+    <div
+      [class]="
+        +isInLogin
+          ? 'info-content info-login'
+          : 'info-content info-login active'
+      "
+    >
+      <h2 class="">BEM VINDO NOVAMENTE</h2>
+    </div>
+    <div
+      [class]="
+        +isInLogin
+          ? 'info-content info-create'
+          : 'info-content info-create active'
+      "
+    >
+      <h2 class="">BEM VINDO</h2>
+    </div>
+  </div>
+  }
+</div>

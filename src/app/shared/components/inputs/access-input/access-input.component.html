@@ -1,0 +1,11 @@
+<div class="input-box">
+    <input
+      #input
+      [type]="type"
+      [id]="id"
+      [name]="name"
+      [(ngModel)]="value"
+      [required]="required"
+    />
+    <label [for]="id">{{ label }}</label>
+</div>

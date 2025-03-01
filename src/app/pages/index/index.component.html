@@ -1,0 +1,21 @@
+@if (isLoading) {
+<loading />
+} @else if(currentUser) {
+<div class="screen">
+  <app-header />
+
+  <main class="main">
+    <h1>Bem Vindo @if(currentUser){{{ this.currentUser.name }}}</h1>
+
+    @if (allGroups.length > 0){
+    <app-list
+      [allElements]="allGroups"
+      [navigate]="viewGroupDetails.bind(this)"
+      [findNext]="findNextGroups.bind(this)"
+      [delete]="deleteGroup.bind(this)"
+      type="grupo"
+    />
+    }
+  </main>
+</div>
+}

@@ -1,0 +1,45 @@
+@if (isLoading){
+<loading />
+} @else {
+<div class="scrreen">
+  <app-header />
+  <main class="main">
+    <select
+      name="1group"
+      id="1group"
+      [value]="selectedGroup ? selectedGroup._id : 'null'"
+      (change)="changeSelect($event)"
+    >
+      <option value="null">NENHUM</option>
+      @for (group of currentGroups; track $index) {
+      <option [value]="group._id">
+        {{ group.group ? group.group + "/" : "" }}{{ group.name }}
+      </option>
+      }
+    </select>
+    @if (voteResult) {
+    <h1>{{ voteResult.group.name }}</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Votos</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (result of voteResult.participants; track $index) {
+        <tr>
+          <td>{{ result.name }}</td>
+          <td>{{ result.votes }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+    <div class="allow-container">
+      <access-input label="ID da Urna:" id="urn" name="urn" [(ngModel)]="urn" />
+      <app-button [onClick]="allowVote.bind(this)" content="Autorizar" />
+    </div>
+    }
+  </main>
+</div>
+}

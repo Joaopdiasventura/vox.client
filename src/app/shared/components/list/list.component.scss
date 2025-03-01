@@ -1,0 +1,185 @@
+@use "../../../../styles.scss" as styles;
+
+.elements-list {
+  &.slideLeft {
+    animation: slideLeft 0.5s forwards;
+  }
+
+  &.slideRight {
+    animation: slideRight 0.5s forwards;
+  }
+}
+
+@media (min-width: 1024px) {
+  .elements-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+
+    button {
+      font-size: 0.75vw;
+      border: none;
+      background-color: styles.$background-secondary-color;
+      color: styles.$second-color;
+      padding: 0.5vw;
+      border-radius: 0.5vw;
+      cursor: pointer;
+      transition: color 0.2s;
+      cursor: pointer;
+
+      &:hover {
+        color: styles.$primary-color;
+      }
+
+      &.disable {
+        cursor: not-allowed;
+        color: styles.$text-color;
+        background-color: styles.$background-color;
+      }
+    }
+
+    .elements-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+      gap: 2vw;
+      width: 90%;
+      height: 70%;
+      padding: 2vw;
+      cursor: default;
+
+      .elements-card {
+        width: 20%;
+        height: 40%;
+        background-color: styles.$background-secondary-color;
+        color: styles.$primary-color;
+        padding: 1vw;
+        border-radius: 0.5vw;
+        box-shadow: 0 0 0.3vw rgba(255, 255, 255, 0.1);
+        transition: transform 0.2s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        h3 {
+          cursor: pointer;
+          font-size: 1.25vw;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          max-width: 90%;
+        }
+
+        button {
+          position: absolute;
+          font-size: 1.25vw;
+          right: 5%;
+          top: 10%;
+          color: styles.$primary-color;
+        }
+
+        &:hover {
+          transform: translateY(-5px);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .elements-container {
+    display: flex;
+    height: auto;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+
+    button {
+      font-size: 2vh;
+      border: none;
+      background-color: styles.$background-secondary-color;
+      color: styles.$primary-color;
+      padding: 0.5vw;
+      border-radius: 0.5vw;
+      cursor: pointer;
+      transition: color 0.2s;
+      cursor: pointer;
+
+      &.disable {
+        cursor: not-allowed;
+        color: styles.$text-color;
+        background-color: styles.$background-color;
+      }
+    }
+    .elements-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      align-items: center;
+      gap: 2vh;
+      width: 100%;
+      height: 60%;
+      padding: 2vh;
+
+      .elements-card {
+        z-index: 0;
+        width: 40%;
+        height: 7.5%;
+        background-color: styles.$background-secondary-color;
+        color: styles.$primary-color;
+        padding: 1.5rem;
+        border-radius: 0.5vh;
+        box-shadow: 0 0 0.3vh rgba(255, 255, 255, 0.1);
+        transition: transform 0.2s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        h3 {
+          cursor: pointer;
+          font-size: 1.25vh;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          max-width: 90%;
+        }
+
+        button {
+          position: absolute;
+          font-size: 1.5vh;
+          right: 5%;
+          top: 7.5%;
+        }
+
+        &:hover {
+          transform: translateY(-5px);
+        }
+      }
+    }
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

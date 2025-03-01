@@ -1,0 +1,18 @@
+<header class="head">
+  <nav class="nav">
+    <img src="icon.webp" alt="Logo" (click)="navigate([''])" />
+
+    <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+    <div class="nav-links" [class.open]="isMenuOpen">
+      <button (click)="navigate(['group', 'add'])">Adicionar Grupo</button>
+      <button (click)="navigate(['participant', 'add'])">
+        Adicionar Participante
+      </button>
+      <button (click)="navigate(['votes', 'start'])">Iniciar votação</button>
+      <button (click)="navigate(['votes', 'follow'])">
+        Acompanhar votação
+      </button>
+      <button (click)="logOut()">Sair</button>
+    </div>
+  </nav>
+</header>

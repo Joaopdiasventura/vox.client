@@ -1,0 +1,26 @@
+@if (isLoading){
+<loading />
+} @else {
+<div class="screen">
+  <app-header />
+  <main class="main">
+    @if (currentGroup){
+    <h1>{{ currentGroup.name }}</h1>
+    @if (type != ""){
+    <h2>{{ type }}s:</h2>
+    }
+    <app-list
+      [allElements]="allElements"
+      [findNext]="findNext"
+      [navigate]="navigate.bind(this)"
+      [delete]="delete.bind(this)"
+      [type]="type"
+    />
+    @if (currentGroup.group) {
+    <button class="button" (click)="navigateToGroup('' + currentGroup.group)">
+      Voltar
+    </button>
+    } }
+  </main>
+</div>
+}

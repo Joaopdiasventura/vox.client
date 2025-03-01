@@ -1,0 +1,55 @@
+@use "../../../styles.scss" as styles;
+
+.screen {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .main {
+    height: fit-content;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 1vw;
+    gap: 1vw;
+    justify-content: center;
+    align-items: center;
+
+    h1 {
+      width: 100%;
+      text-align: center;
+      font-size: 3vw;
+    }
+
+    app-list {
+      width: 100vw;
+      height: 50vh;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .main {
+    height: fit-content;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 1vh;
+    justify-content: center;
+    align-items: center;
+
+    h1 {
+      width: 100%;
+      text-align: center;
+    }
+
+    app-list {
+      width: 100vw;
+      height: 80vh;
+    }
+  }
+}

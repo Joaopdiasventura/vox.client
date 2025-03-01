@@ -1,0 +1,41 @@
+<div class="screen">
+  @if (isLoading) { <loading />} @else if(modalConfig.isVisible) {
+  <modal
+    [isVisible]="modalConfig.isVisible"
+    [title]="modalConfig.title"
+    [children]="modalConfig.children"
+    [onClose]="modalConfig.onClose"
+  />} @else {
+  <app-header />
+  <div class="container">
+    <div class="form-box">
+      <h2>Adicionar Participante</h2>
+      <form autocomplete="off" (ngSubmit)="create()">
+        <access-input
+          type="text"
+          id="create-name"
+          name="create-name"
+          label="Nome"
+          [(ngModel)]="createParticipant.name"
+        />
+        @if(currentGroups.length > 0) {
+        <label for="group">SELECIONE UM GRUPO</label>
+        <select
+          name="group"
+          id="group"
+          [value]="createParticipant.group"
+          (change)="changeSelect($event)"
+        >
+          <option value="null">NENHUM</option>
+          @for (group of currentGroups; track $index) {
+          <option [value]="group._id">
+            {{ group.group ? group.group + "/" : "" }}{{ group.name }}
+          </option>
+          }</select
+        >}
+        <app-button content="Criar"/>
+      </form>
+    </div>
+  </div>
+  }
+</div>

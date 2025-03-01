@@ -1,0 +1,163 @@
+@use "../../../../styles.scss" as styles;
+
+.screen {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .main {
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+    padding: 1vw;
+    h1 {
+      width: 100%;
+      text-align: center;
+      font-size: 2.5vw;
+      color: styles.$text-color;
+      font-weight: 600;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      justify-content: space-around;
+
+      .select-container {
+        width: 45%;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1.5vw;
+
+        label {
+          font-size: 1.2vw;
+          color: styles.$text-color;
+          margin-bottom: 0.5vw;
+        }
+
+        select {
+          margin-top: 0.75vh;
+          outline: none;
+          width: 100%;
+          height: 5vh;
+          background: transparent;
+          border-radius: 0.5vh;
+          font-size: 1.5vh;
+          color: styles.$text-color;
+          font-weight: 600;
+          border: 0.01vh solid styles.$primary-color;
+          cursor: pointer;
+          padding: 0 1rem;
+
+          option {
+            background-color: styles.$background-secondary-color;
+          }
+        }
+      }
+    }
+  }
+
+  .vote-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .group-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 45%;
+      margin: 1rem;
+      padding: 1.5rem;
+      background-color: styles.$background-secondary-color;
+      border-radius: 1vw;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+      h3 {
+        color: styles.$primary-color;
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+      }
+
+      div {
+        margin-bottom: 1rem;
+      }
+
+      label {
+        font-size: 1vw;
+        cursor: pointer;
+        color: styles.$text-color;
+      }
+
+      input {
+        margin-left: 1vw;
+        cursor: pointer;
+        background-color: styles.$second-color;
+        accent-color: styles.$primary-color;
+      }
+    }
+
+    .button-container {
+      width: 10%;
+    }
+  }
+
+  .center-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2vh;
+  }
+}
+
+@media (max-width: 1024px) {
+  .main {
+    padding: 2rem;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .select-container {
+      width: 100%;
+      margin-bottom: 1.5rem;
+
+      select {
+        height: 5vh;
+        font-size: 4vh;
+      }
+    }
+  }
+
+  .vote-container {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    .group-container {
+      width: 90%;
+      margin: 1rem 0;
+      padding: 1rem;
+    }
+
+    .group-container label {
+      font-size: 4vh;
+    }
+
+    .group-container input {
+      margin-left: 2vh;
+      height: 5vh;
+      width: 5vh;
+    }
+  }
+}

@@ -1,0 +1,42 @@
+@if ( modalConfig.isVisible ) {
+<modal-question
+  [isVisible]="modalConfig.isVisible"
+  [title]="modalConfig.title"
+  [children]="modalConfig.children"
+  [onConfirm]="deleteElement.bind(this)"
+  [onDeny]="modalConfig.onDeny"
+/>
+} @else if(allElements && allElements.length > 0 && allElements[0]
+&&allElements[0].length > 0){
+<div class="elements-container">
+  <button [class]="currentPage < 1 ? 'disable' : ''" (click)="usePrev()">
+    <-
+  </button>
+  <div
+    class="elements-list"
+    [ngClass]="{
+      slideLeft: slidingDirection == 'left',
+      slideRight: slidingDirection == 'right'
+    }"
+    (@slideAnimation.done)="animationDone()"
+  >
+    @for (element of allElements[currentPage]; track element._id; let i =
+    $index) {
+    <div class="elements-card">
+      <h3 (click)="navigateToElement(element._id)">{{ element.name }}</h3>
+      <button (click)="openModal(element)">×</button>
+    </div>
+    }
+  </div>
+  <button
+    [class]="
+      !allElements[currentPage + 1] || allElements[currentPage + 1].length == 0
+        ? 'disable'
+        : ''
+    "
+    (click)="useNext()"
+  >
+    ->
+  </button>
+</div>
+}

@@ -1,0 +1,81 @@
+@use "../../../../styles.scss" as styles;
+
+@media (min-width: 1024px) {
+  .btn-box {
+    position: relative;
+    width: 100%;
+    height: 5vh;
+    margin-top: 1.5vw;
+
+    .btn {
+      padding: 0 1vw;
+      position: relative;
+      width: 100%;
+      height: 4vh;
+      background: transparent;
+      border-radius: 0.5vw;
+      cursor: pointer;
+      font-size: 1.2vw;
+      color: styles.$text-color;
+      font-weight: 600;
+      border: 0.01vw solid styles.$primary-color;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .btn:before {
+      content: "";
+      position: absolute;
+      height: 300%;
+      width: 100%;
+      background: linear-gradient(
+        styles.$second-color,
+        styles.$primary-color,
+        styles.$second-color,
+        styles.$primary-color
+      );
+      top: -100%;
+      left: 0;
+      z-index: -1;
+      transition: 0.5s;
+    }
+
+    .btn:hover:before {
+      top: 0;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .btn-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    .btn {
+      width: 100%;
+      padding: 1vh;
+      border: 0.01vw solid styles.$primary-color;
+      border-radius: 1vh;
+      background: linear-gradient(
+        styles.$primary-color,
+        styles.$primary-color,
+        styles.$second-color,
+        styles.$second-color
+      );
+      color: styles.$text-color;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-size: 2vh;
+
+      &:hover {
+        background: linear-gradient(
+          45deg,
+          styles.$primary-color,
+          styles.$second-color
+        );
+      }
+    }
+  }
+}

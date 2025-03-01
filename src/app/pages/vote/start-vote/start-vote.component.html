@@ -1,0 +1,127 @@
+@if(isLoading){
+<loading />
+}@else if(modalConfig.isVisible) {
+<modal
+  [isVisible]="modalConfig.isVisible"
+  [title]="modalConfig.title"
+  [children]="modalConfig.children"
+  [onClose]="modalConfig.onClose"
+/>
+} @else if (status == "selecting") {
+<div class="screen">
+  <app-header />
+  <main class="main">
+    <h1>Urna ID: {{ simpleId }}</h1>
+    <div class="container">
+      <div class="select-container">
+        <label for="1group">Selecione o primeiro grupo</label>
+        <select
+          name="1group"
+          id="1group"
+          [value]="selectedGroups[0] ? selectedGroups[0]._id : 'null'"
+          (change)="changeSelect($event, 0)"
+        >
+          <option value="null">NENHUM</option>
+          @for (group of currentGroups; track $index) {
+          <option [value]="group._id">
+            {{ group.group ? group.group + "/" : "" }}{{ group.name }}
+          </option>
+          }
+        </select>
+      </div>
+      <div class="select-container">
+        <label for="2group">Selecione o segundo grupo</label>
+        <select
+          name="2group"
+          id="2group"
+          [value]="selectedGroups[1] ? selectedGroups[1]._id : 'null'"
+          (change)="changeSelect($event, 1)"
+        >
+          <option value="null">NENHUM</option>
+          @for (group of currentGroups; track $index) {
+          <option [value]="group._id">
+            {{ group.group ? group.group + "/" : "" }}{{ group.name }}
+          </option>
+          }
+        </select>
+      </div>
+      <div class="container">
+        <access-input
+          label="Quantidade de Votos:"
+          type="number"
+          id="quantity"
+          name="quantity"
+          [(ngModel)]="quantity"
+        />
+      </div>
+      <app-button [onClick]="startVote.bind(this)" content="Iniciar Votação" />
+    </div>
+  </main>
+</div>
+} @else if(status == "occurring") {
+<div class="screen">
+  <div class="vote-container">
+    @if(selectedGroups[0]){
+    <div class="group-container">
+      <h3>{{ selectedGroups[0].name }}</h3>
+      @for (participant of selectedParticipants[0]; track $index) {
+      <div>
+        <label [for]="participant._id">{{ participant.name }}</label>
+        <input
+          type="radio"
+          name="group-container-1"
+          [id]="participant._id"
+          (change)="addVote(0, participant._id)"
+        />
+      </div>
+      }
+      <div>
+        <label for="null-1">Nulo</label>
+        <input
+          type="radio"
+          name="group-container-1"
+          id="null-1"
+          (change)="addVote(0, 'null')"
+        />
+      </div>
+    </div>
+    }@if(selectedGroups[1]){
+    <div class="group-container">
+      <h3>{{ selectedGroups[1].name }}</h3>
+      @for (participant of selectedParticipants[1]; track $index) {
+      <div>
+        <label [for]="participant._id">{{ participant.name }}</label>
+        <input
+          type="radio"
+          name="group-container-2"
+          [id]="participant._id"
+          (change)="addVote(1, participant._id)"
+        />
+      </div>
+      }
+      <div>
+        <label for="null-2">Nulo</label>
+        <input
+          type="radio"
+          name="group-container-2"
+          id="null-2"
+          (change)="addVote(1, 'null')"
+        />
+      </div>
+    </div>
+    }
+    <div class="button-container">
+      <app-button [onClick]="vote.bind(this)" content="Votar" />
+    </div>
+  </div>
+</div>
+} @else if (status == "blocked"){
+<div class="center-container">
+  <h1>AGUARDE A LIBERAÇÃO</h1>
+</div>
+} @else if (status == "ended"){
+<div class="center-container">
+  <h1>VOTAÇÃO ENCERRADA</h1>
+  <app-button [onClick]="logOut.bind(this)" content="SAIR" />
+</div>
+}

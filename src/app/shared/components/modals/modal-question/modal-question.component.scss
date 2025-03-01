@@ -1,0 +1,95 @@
+@use "../../../../../styles.scss" as styles;
+
+.backdrop {
+  height: 100vh;
+  width: 100vw;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: styles.$background-color;
+  z-index: 2;
+  transition: opacity 1s;
+  position: absolute;
+
+  &.opacity-0 {
+    opacity: 0;
+    display: none;
+  }
+  &.opacity-100 {
+    opacity: 1;
+  }
+
+  .modal-content {
+    background-color: styles.$background-color;
+    border-radius: 0.375rem;
+    box-shadow: 0 0 3px styles.$text-color;
+    padding: 1.5rem;
+    z-index: 60;
+    width: 80vw;
+    max-width: 48rem;
+    transition: transform 1s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+
+    &.scale-90 {
+      transform: scale(0.9);
+    }
+    &.scale-100 {
+      transform: scale(1);
+    }
+
+    .modal-title {
+      display: flex;
+      justify-content: center;
+      text-align: center;
+
+      h2 {
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: styles.$primary-color;
+      }
+    }
+
+    .modal-body {
+      text-align: center;
+      font-size: 1.25rem;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: center;
+      gap: 2vw;
+
+      .close-button {
+        color: styles.$text-color;
+        font-size: 1.25rem;
+        font-weight: 600;
+        border-radius: 0.25rem;
+        padding: 0.5rem;
+        width: 12rem;
+        margin-top: 1rem;
+        transition: all 0.2s;
+        border: none;
+        cursor: pointer;
+
+        &.confirm {
+          background-color: styles.$primary-color;
+
+          &:hover {
+            box-shadow: 0 0 5px styles.$text-color;
+          }
+        }
+
+        &.deny {
+          background-color: styles.$background-secondary-color;
+
+          &:hover {
+            box-shadow: 0 0 5px styles.$text-color;
+          }
+        }
+      }
+    }
+  }
+}

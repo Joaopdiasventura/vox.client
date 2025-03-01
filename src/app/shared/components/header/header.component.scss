@@ -1,0 +1,124 @@
+@use "../../../../styles.scss" as styles;
+
+
+
+@media (min-width: 1024px) {
+  .head {
+    height: 7.5vh;
+    width: 100vw;
+    padding: 3vw 0;
+    box-shadow: 0 0 0.3vw #000;
+    z-index: 2;
+    position: relative;
+
+    .nav {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+
+      .menu-toggle {
+        display: none;
+      }
+
+      .nav-links {
+        width: 70%;
+        display: flex;
+        justify-content: space-evenly;
+      }
+
+      img {
+        width: 4vw;
+        height: 4vw;
+        cursor: pointer;
+      }
+
+      button {
+        font-size: 0.75vw;
+        border: none;
+        background-color: styles.$background-secondary-color;
+        color: styles.$second-color;
+        padding: 0.5vw;
+        border-radius: 0.5vw;
+        cursor: pointer;
+        transition: color 0.2s;
+
+        &:hover {
+          background-color: styles.$background-color;
+          color: styles.$primary-color;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .head {
+    height: 10vh;
+    width: 100vw;
+    padding: 4vw;
+    box-shadow: 0 0 0.3vw #000;
+    z-index: 1;
+    position: relative;
+
+    .nav {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      img {
+        width: 5vh;
+        height: 5vh;
+        font-size: 3vh;
+      }
+
+      .menu-toggle {
+        font-size: 5vw;
+        background: none;
+        border: none;
+        color: styles.$text-color;
+        background-color: styles.$background-secondary-color;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+
+        &:focus {
+          outline: none;
+          box-shadow: none;
+        }
+      }
+
+      .nav-links {
+        position: absolute;
+        right: -75vh;
+        flex-direction: column;
+        display: flex;
+        top: 11vh;
+        background-color: styles.$background-secondary-color;
+        width: 50vw;
+        padding: 2vw;
+        border-radius: 1vw;
+        box-shadow: 0 0 0.3vh rgba(255, 255, 255, 0.1);
+        transition: all 0.3s;
+
+        button {
+          font-size: 4vw;
+          background-color: styles.$background-secondary-color;
+          color: styles.$primary-color;
+          padding: 3vw;
+          border: none;
+          border-radius: 1vw;
+          cursor: pointer;
+          transition: background-color 0.2s;
+          text-align: start;
+        }
+
+        &.open {
+          right: 1vh;
+        }
+      }
+    }
+  }
+}

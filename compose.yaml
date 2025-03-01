@@ -1,0 +1,8 @@
+services:
+  client:
+    build:
+      context: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 4000:4000

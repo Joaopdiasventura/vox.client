@@ -1,0 +1,64 @@
+@use "../../../../styles.scss" as styles;
+
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+
+  .spinner {
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: conic-gradient(styles.$background-color, styles.$primary-color);
+    background-clip: content-box;
+    animation: spin 1s linear infinite;
+
+    .mid {
+      border-radius: 50%;
+      background-color: styles.$background-color;
+    }
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media (min-width: 1024px) {
+  .loading-spinner {
+    .spinner {
+      width: 4vw;
+      height: 4vw;
+      box-shadow: 0 0 0.3vw styles.$primary-color;
+
+      .mid {
+        width: 2vw;
+        height: 2vw;
+        box-shadow: 0 0 0.3vw styles.$primary-color;
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .loading-spinner {
+    .spinner {
+      width: 4vh;
+      height: 4vh;
+      box-shadow: 0 0 0.3vh styles.$primary-color;
+
+      .mid {
+        width: 2vh;
+        height: 2vh;
+        box-shadow: 0 0 0.3vh styles.$primary-color;
+      }
+    }
+  }
+}

@@ -1,0 +1,103 @@
+@use "../../../../styles.scss" as styles;
+
+.screen {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+@media (min-width: 767px) {
+  .main {
+    height: fit-content;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 1vw;
+    gap: 1vw;
+    justify-content: center;
+    align-items: center;
+
+    .button {
+      width: 10%;
+      height: 40%;
+      background-color: styles.$background-secondary-color;
+      color: styles.$primary-color;
+      padding: 1vw;
+      border-radius: 0.5vw;
+      box-shadow: 0 0 0.3vw rgba(255, 255, 255, 0.1);
+      transition: transform 0.2s;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      font-size: 1vw;
+
+      &:hover {
+        transform: translateY(-3px);
+      }
+    }
+
+    h1 {
+      font-size: 3vw;
+    }
+
+    h2 {
+      font-size: 1.75vw;
+    }
+
+    app-list {
+      width: 100vw;
+      height: 50vh;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .main {
+    height: fit-content;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 1vh;
+    justify-content: space-around;
+    align-items: center;
+
+    .button {
+      z-index: 0;
+      width: 30%;
+      height: 5%;
+      background-color: styles.$background-secondary-color;
+      color: styles.$primary-color;
+      padding: 1rem;
+      border-radius: 0.5vh;
+      box-shadow: 0 0 0.3vh rgba(255, 255, 255, 0.1);
+      transition: transform 0.2s;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5vh;
+      border: none;
+
+      &:hover {
+        transform: translateY(-3px);
+      }
+    }
+
+    h1 {
+      font-size: 3vh;
+    }
+
+    h2 {
+      font-size: 1.75vh;
+    }
+
+    app-list {
+      width: 100vw;
+      height: 65vh;
+    }
+  }
+}
