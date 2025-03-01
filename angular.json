@@ -45,7 +45,7 @@
           "configurations": {
             "production": {
               "define": {
-                "API_URL": "'https://vox-2uk6.onrender.com'"
+                "API_URL": "'https://v-o-x.onrender.com'"
               },
               "budgets": [
                 {
