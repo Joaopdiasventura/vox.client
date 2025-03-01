@@ -22,7 +22,6 @@ jobs:
 
       - name: Install Dependencies and Build
         run: |
-          cd client
           npm ci
           npm run build
 
@@ -38,9 +37,7 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Build docker image
-        run: |
-          cd client 
-          docker build -t jpplay/vox-client .
+        run: docker build -t jpplay/vox-client .
 
       - name: Push docker image
         run: docker push jpplay/vox-client:latest
