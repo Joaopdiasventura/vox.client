@@ -100,14 +100,13 @@ export class FindGroupComponent implements OnInit {
           this.type = 'grupo';
           this.findNext = this.findNextSubGroups;
           this.navigate = this.navigateToGroup;
+          this.isLoading = false;
         }
       },
-      complete: () => (this.isLoading = false),
     });
   }
 
   private findParticipants() {
-    this.isLoading = true;
     forkJoin([
       this.participantService.findManyByGroup(this.id, 0),
       this.participantService.findManyByGroup(this.id, 1),
@@ -120,7 +119,6 @@ export class FindGroupComponent implements OnInit {
         this.delete = this.deleteParticipant;
         this.isLoading = false;
       },
-      complete: () => (this.isLoading = false),
     });
   }
 }
