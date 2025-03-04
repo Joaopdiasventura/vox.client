@@ -1,25 +1,16 @@
-import {
-  Component,
-  inject,
-  OnDestroy,
-  OnInit,
-  PLATFORM_ID,
-} from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { LoadingComponent } from '../../../shared/components/loading/loading.component';
-import { isPlatformServer } from '@angular/common';
-import { GroupService } from '../../../shared/services/group.service';
-import { UserService } from '../../../shared/services/user.service';
-import { WebSocketService } from '../../../shared/services/websocket.service';
-import { Router } from '@angular/router';
-import { User } from '../../../shared/models/user';
+import { User } from '../../../core/models/user';
 import { Socket } from 'socket.io-client';
-import { Group } from '../../../shared/models/group';
+import { Group } from '../../../core/models/group';
 import { VoteResult } from '../../../shared/interfaces/vote-result';
 import { AccessInputComponent } from '../../../shared/components/inputs/access-input/access-input.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
-import { BehaviorSubject } from 'rxjs';
+import { GroupService } from '../../../core/services/group.service';
+import { UserService } from '../../../core/services/user.service';
+import { WebSocketService } from '../../../core/services/websocket.service';
 
 @Component({
   selector: 'app-follow-vote',
@@ -34,49 +25,25 @@ import { BehaviorSubject } from 'rxjs';
   styleUrl: './follow-vote.component.scss',
 })
 export class FollowVoteComponent implements OnInit, OnDestroy {
-  isLoading: boolean = true;
-  currentUser: User | null = null;
-  currentGroups: Group[] = [];
-  selectedGroup!: Group;
-  voteResult!: VoteResult;
+  public isLoading: boolean = true;
+  public currentUser: User | null = null;
+  public currentGroups: Group[] = [];
+  public selectedGroup!: Group;
+  public voteResult!: VoteResult;
 
-  voteId: string = '';
+  public voteId: string = '';
 
-  urn: string = '';
+  public urn: string = '';
 
   private socket!: Socket;
 
-  private userObservable = new BehaviorSubject<User | null>(null);
-
-  private platformId = inject(PLATFORM_ID);
   private webSocketService = inject(WebSocketService);
   private userService = inject(UserService);
   private groupService = inject(GroupService);
-  private router = inject(Router);
 
   public ngOnInit(): void {
-    if (isPlatformServer(this.platformId)) return;
-    this.userObservable.subscribe((user) => this.handleUserChange(user));
     const user = this.userService.getCurrentData();
-    if (!user) return this.connectUser();
-    this.userObservable.next(user);
-  }
-
-  private connectUser() {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      this.router.navigate(['access']);
-      return;
-    }
-    this.isLoading = true;
-    this.userService.decodeToken(token).subscribe({
-      next: (user: User) => {
-        this.userObservable.next(user);
-        this.userService.updateData(user);
-      },
-      error: () => this.router.navigate(['access']),
-      complete: () => (this.isLoading = false),
-    });
+    this.handleUserChange(user);
   }
 
   private handleUserChange(user: User | null) {

@@ -4,17 +4,10 @@ import {
   inject,
   OnDestroy,
   OnInit,
-  PLATFORM_ID,
 } from '@angular/core';
-import { WebSocketService } from '../../../shared/services/websocket.service';
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { User } from '../../../shared/models/user';
-import { Group } from '../../../shared/models/group';
-import { GroupService } from '../../../shared/services/group.service';
-import { VoteService } from './../../../shared/services/vote.service';
-import { ParticipantService } from '../../../shared/services/participant.service';
-import { UserService } from '../../../shared/services/user.service';
-import { Participant } from '../../../shared/models/participant';
+import { User } from '../../../core/models/user';
+import { Group } from '../../../core/models/group';
+import { Participant } from '../../../core/models/participant';
 import { Router } from '@angular/router';
 import { VoteStatus } from '../../../shared/types/vote-status.type';
 import { LoadingComponent } from '../../../shared/components/loading/loading.component';
@@ -25,7 +18,11 @@ import { CreateVoteDto } from '../../../shared/dto/vote/create-vote.dto';
 import { AccessInputComponent } from '../../../shared/components/inputs/access-input/access-input.component';
 import { ModalComponent } from '../../../shared/components/modals/modal/modal.component';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
-import { BehaviorSubject } from 'rxjs';
+import { GroupService } from '../../../core/services/group.service';
+import { ParticipantService } from '../../../core/services/participant.service';
+import { UserService } from '../../../core/services/user.service';
+import { VoteService } from '../../../core/services/vote.service';
+import { WebSocketService } from '../../../core/services/websocket.service';
 
 @Component({
   selector: 'app-start-vote',
@@ -63,9 +60,6 @@ export class StartVoteComponent implements OnInit, OnDestroy {
 
   private socket!: Socket;
 
-  private userObservable = new BehaviorSubject<User | null>(null);
-
-  private platformId = inject(PLATFORM_ID);
   private webSocketService = inject(WebSocketService);
   private userService = inject(UserService);
   private voteService = inject(VoteService);
@@ -80,60 +74,12 @@ export class StartVoteComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    if (isPlatformServer(this.platformId)) return;
-    this.userObservable.subscribe((user) => this.handleUserChange(user));
     const user = this.userService.getCurrentData();
-    if (!user) return this.connectUser();
-    this.userObservable.next(user);
-  }
-
-  private connectUser() {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      this.router.navigate(['access']);
-      return;
-    }
-    this.isLoading = true;
-    this.userService.decodeToken(token).subscribe({
-      next: (user: User) => {
-        this.userObservable.next(user);
-        this.userService.updateData(user);
-      },
-      error: () => this.router.navigate(['access']),
-      complete: () => (this.isLoading = false),
-    });
-  }
-
-  private handleUserChange(user: User | null) {
-    this.currentUser = user;
-    if (!user) return;
-    this.connectToWebSocket();
-    this.findGroups(user._id);
+    this.handleUserChange(user);
   }
 
   public ngOnDestroy(): void {
     if (this.socket) this.socket.disconnect();
-  }
-
-  private connectToWebSocket() {
-    this.socket = this.webSocketService.connect();
-    this.socket.on('new-id', (payload) => (this.simpleId = payload));
-    this.socket.on('vote-allowed', () => {
-      if (this.status == 'blocked') this.status = 'occurring';
-    });
-  }
-
-  private findGroups(user: string) {
-    this.groupService.findAllWithParticipants(user).subscribe({
-      next: (result) => (this.currentGroups = result),
-      complete: () => (this.isLoading = false),
-    });
-  }
-
-  private findParticipants(position: 0 | 1, group: string) {
-    this.participantService.findAllByGroup(group).subscribe({
-      next: (result) => (this.selectedParticipants[position] = result),
-    });
   }
 
   public changeSelect(e: Event, position: 0 | 1) {
@@ -181,5 +127,33 @@ export class StartVoteComponent implements OnInit, OnDestroy {
     localStorage.removeItem('token');
     this.userService.updateData(null);
     this.router.navigate(['access']);
+  }
+
+  private handleUserChange(user: User | null) {
+    this.currentUser = user;
+    if (!user) return;
+    this.connectToWebSocket();
+    this.findGroups(user._id);
+  }
+
+  private connectToWebSocket() {
+    this.socket = this.webSocketService.connect();
+    this.socket.on('new-id', (payload) => (this.simpleId = payload));
+    this.socket.on('vote-allowed', () => {
+      if (this.status == 'blocked') this.status = 'occurring';
+    });
+  }
+
+  private findGroups(user: string) {
+    this.groupService.findAllWithParticipants(user).subscribe({
+      next: (result) => (this.currentGroups = result),
+      complete: () => (this.isLoading = false),
+    });
+  }
+
+  private findParticipants(position: 0 | 1, group: string) {
+    this.participantService.findAllByGroup(group).subscribe({
+      next: (result) => (this.selectedParticipants[position] = result),
+    });
   }
 }

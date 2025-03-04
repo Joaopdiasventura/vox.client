@@ -1,4 +1,4 @@
-import { Group } from '../models/group';
+import { Group } from '../../core/models/group';
 
 export interface VoteResult {
   group: Group;

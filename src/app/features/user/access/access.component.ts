@@ -6,9 +6,9 @@ import { LoadingComponent } from '../../../shared/components/loading/loading.com
 import { ModalComponent } from '../../../shared/components/modals/modal/modal.component';
 import { FormsModule } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UserService } from '../../../shared/services/user.service';
 import { Router } from '@angular/router';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-access',
@@ -52,13 +52,11 @@ export class AccessComponent {
   }
 
   public login() {
-    if (this.loginUserDto.email.length == 0) {
-      document.getElementById('login-email-input')?.focus();
-      return;
-    } else if (this.loginUserDto.password.length == 0) {
-      document.getElementById('login-password-input')?.focus();
-      return;
-    }
+    if (this.loginUserDto.email.length == 0)
+      return document.getElementById('login-email-input')?.focus();
+    else if (this.loginUserDto.password.length == 0)
+      return document.getElementById('login-password-input')?.focus();
+
     this.isLoading = true;
     this.userService.login(this.loginUserDto).subscribe({
       next: (result) => {
@@ -66,9 +64,7 @@ export class AccessComponent {
           isVisible: true,
           title: 'LOGIN REALIZADO COM SUCESSO',
           children: result.message,
-          onClose: () => {
-            this.router.navigate(['../']);
-          },
+          onClose: () => this.router.navigate(['../']),
         };
         localStorage.setItem('token', result.token);
         this.userService.updateData(result.user);
@@ -82,9 +78,8 @@ export class AccessComponent {
             typeof error.error.message == 'string'
               ? error.error.message
               : error.error.message[0],
-          onClose: () => {
-            this.modalConfig = { ...this.modalConfig, isVisible: false };
-          },
+          onClose: () =>
+            (this.modalConfig = { ...this.modalConfig, isVisible: false }),
         };
         this.isLoading = false;
       },
@@ -92,16 +87,13 @@ export class AccessComponent {
   }
 
   public create() {
-    if (this.createUserDto.email.length == 0) {
-      document.getElementById('create-email-input')?.focus();
-      return;
-    } else if (this.createUserDto.name.length == 0) {
-      document.getElementById('create-name-input')?.focus();
-      return;
-    } else if (this.createUserDto.password.length == 0) {
-      document.getElementById('create-password-input')?.focus();
-      return;
-    }
+    if (this.createUserDto.email.length == 0)
+      return document.getElementById('create-email-input')?.focus();
+    else if (this.createUserDto.name.length == 0)
+      return document.getElementById('create-name-input')?.focus();
+    else if (this.createUserDto.password.length == 0)
+      return document.getElementById('create-password-input')?.focus();
+
     this.isLoading = true;
     this.userService.create(this.createUserDto).subscribe({
       next: (result) => {
@@ -109,9 +101,7 @@ export class AccessComponent {
           isVisible: true,
           title: 'USUÁRIO CRIADO COM SUCESSO',
           children: result.message,
-          onClose: () => {
-            this.router.navigate(['../']);
-          },
+          onClose: () => this.router.navigate(['../']),
         };
         localStorage.setItem('token', result.token);
         this.userService.updateData(result.user);
@@ -125,9 +115,8 @@ export class AccessComponent {
             typeof error.error.message == 'string'
               ? error.error.message
               : error.error.message[0],
-          onClose: () => {
-            this.modalConfig = { ...this.modalConfig, isVisible: false };
-          },
+          onClose: () =>
+            (this.modalConfig = { ...this.modalConfig, isVisible: false }),
         };
         this.isLoading = false;
       },

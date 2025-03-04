@@ -1,8 +1,8 @@
-import { CreateParticipantDto } from '../dto/participant/create-participant.dto';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { CreateParticipantDto } from '../../shared/dto/participant/create-participant.dto';
+import { Message } from '../../shared/interfaces/message';
 import { Participant } from '../models/participant';
-import { Message } from '../interfaces/message';
 
 declare const API_URL: string;
 
@@ -31,7 +31,8 @@ export class ParticipantService {
     );
   }
 
-  public findManyByGroup(group: string, token: string, page: number) {
+  public findManyByGroup(group: string, page: number) {
+    const token = localStorage.getItem('token') as string;
     return this.http.get<Participant[]>(
       `${this.apiUrl}/findManyByGroup/${group}/${page}`,
       {

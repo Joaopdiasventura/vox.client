@@ -1,14 +1,13 @@
-import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
-import { isPlatformServer } from '@angular/common';
-import { User } from '../../shared/models/user';
-import { UserService } from '../../shared/services/user.service';
+import { Component, OnInit, inject } from '@angular/core';
+import { User } from '../../core/models/user';
 import { Router } from '@angular/router';
 import { LoadingComponent } from '../../shared/components/loading/loading.component';
-import { GroupService } from '../../shared/services/group.service';
-import { Group } from '../../shared/models/group';
+import { Group } from '../../core/models/group';
 import { ListComponent } from '../../shared/components/list/list.component';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HeaderComponent } from '../../shared/components/header/header.component';
+import { GroupService } from '../../core/services/group.service';
+import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-index',
@@ -21,22 +20,16 @@ export class IndexComponent implements OnInit {
 
   public allGroups: Group[][] = [];
 
-  public isLoading: boolean = true;
+  public isLoading: boolean = false;
   public isMenuOpen: boolean = false;
 
-  private userObservable = new BehaviorSubject<User | null>(null);
-
-  private platformId = inject(PLATFORM_ID);
   private userService = inject(UserService);
   private groupService = inject(GroupService);
   private router = inject(Router);
 
   public ngOnInit(): void {
-    if (isPlatformServer(this.platformId)) return;
-    this.userObservable.subscribe((user) => this.handleUserChange(user));
     const user = this.userService.getCurrentData();
-    if (!user) return this.connectUser();
-    this.userObservable.next(user);
+    this.handleUserChange(user);
   }
 
   public findNextGroups(page: number): Observable<Group[]> {
@@ -52,31 +45,13 @@ export class IndexComponent implements OnInit {
   }
 
   public viewGroupDetails(id: string) {
-    const token = localStorage.getItem('token');
-    this.router.navigate(['group', token, id]);
+    this.router.navigate(['group', id]);
   }
 
   public logOut() {
     localStorage.removeItem('token');
     this.userService.updateData(null);
     this.router.navigate(['access']);
-  }
-
-  private connectUser() {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      this.router.navigate(['access']);
-      return;
-    }
-    this.isLoading = true;
-    this.userService.decodeToken(token).subscribe({
-      next: (user: User) => {
-        this.userObservable.next(user);
-        this.userService.updateData(user);
-      },
-      error: () => this.router.navigate(['access']),
-      complete: () => (this.isLoading = false),
-    });
   }
 
   private handleUserChange(user: User | null) {

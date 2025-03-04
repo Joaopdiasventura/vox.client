@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Group } from '../../models/group';
+import { Group } from '../../../core/models/group';
 import { Observable } from 'rxjs';
-import { Participant } from '../../models/participant';
+import { Participant } from '../../../core/models/participant';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { ModalQuestionComponent } from '../modals/modal-question/modal-question.component';
@@ -46,7 +46,7 @@ export class ListComponent {
 
   public currentElement: Group | Participant | null = null;
 
-  public  modalConfig = {
+  public modalConfig = {
     isVisible: false,
     title: 'AVISO',
     children: 'teste',
