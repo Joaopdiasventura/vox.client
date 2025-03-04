@@ -78,12 +78,15 @@ export class FindGroupComponent implements OnInit {
   }
 
   private findGroup() {
+    this.isLoading = true;
     this.groupService.findById(this.id).subscribe({
       next: (result) => (this.currentGroup = result),
+      complete: () => (this.isLoading = false),
     });
   }
 
   private findSubGroups() {
+    this.isLoading = true;
     forkJoin([
       this.groupService.findManyByGroup(this.id, 0),
       this.groupService.findManyByGroup(this.id, 1),
@@ -91,7 +94,6 @@ export class FindGroupComponent implements OnInit {
       next: ([firstPage, secondPage]) => {
         this.allElements[0] = firstPage;
         this.allElements[1] = secondPage;
-
         if (firstPage.length == 0 && secondPage.length == 0)
           this.findParticipants();
         else {
@@ -99,12 +101,13 @@ export class FindGroupComponent implements OnInit {
           this.findNext = this.findNextSubGroups;
           this.navigate = this.navigateToGroup;
         }
-        this.isLoading = false;
       },
+      complete: () => (this.isLoading = false),
     });
   }
 
   private findParticipants() {
+    this.isLoading = true;
     forkJoin([
       this.participantService.findManyByGroup(this.id, 0),
       this.participantService.findManyByGroup(this.id, 1),
@@ -115,7 +118,9 @@ export class FindGroupComponent implements OnInit {
         if (firstPage.length > 0) this.type = 'participante';
         this.findNext = this.findNextParticipants;
         this.delete = this.deleteParticipant;
+        this.isLoading = false;
       },
+      complete: () => (this.isLoading = false),
     });
   }
 }

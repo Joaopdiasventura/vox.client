@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { LoadingComponent } from '../../shared/components/loading/loading.component';
 import { Group } from '../../core/models/group';
 import { ListComponent } from '../../shared/components/list/list.component';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { GroupService } from '../../core/services/group.service';
 import { UserService } from '../../core/services/user.service';
@@ -62,19 +62,15 @@ export class IndexComponent implements OnInit {
 
   private findFirstsGroups(user: string) {
     this.isLoading = true;
-    this.groupService.findManyByUser(user, 0).subscribe({
-      next: (result) => {
-        this.allGroups[0] = result;
-        this.allGroups.push(result);
+    forkJoin([
+      this.groupService.findManyByUser(user, 0),
+      this.groupService.findManyByUser(user, 1),
+    ]).subscribe({
+      next: ([firstPage, secondPage]) => {
+        this.allGroups[0] = firstPage;
+        this.allGroups[1] = secondPage;
+        this.isLoading = false;
       },
     });
-    this.groupService.findManyByUser(user, 1).subscribe({
-      next: (result) => {
-        this.allGroups[1] = result;
-        this.allGroups.push(result);
-      },
-      complete: () => (this.isLoading = false),
-    });
-    this.isLoading = false;
   }
 }
